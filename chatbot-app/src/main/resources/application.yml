@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  # Local-only binding: do not expose this beyond localhost.
+  address: 127.0.0.1
+
+azure:
+  openai:
+    # The versionless "v1" inference endpoint on the AI Foundry resource.
+    endpoint: https://usa-cs-infra-azureai-aiservices.services.ai.azure.com/openai/v1
+    # Set via environment variable - never hard-code a key in this file.
+    api-key: 50358731a38c4beda84c4aa8a4eb854f
+    # This must be the *deployment name* configured in Azure AI Foundry,
+    # not a raw model name like "gpt-4o".
+    deployment-name: gpt-4o
+
+logging:
+  level:
+    root: INFO
+  pattern:
+    # No request bodies, headers, or API keys are ever logged (see ChatController).
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
