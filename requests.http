@@ -1,0 +1,46 @@
+### Aegis API requests: run with the green ▶ next to each request in IntelliJ.
+### App must be running on port 8081 (dev profile). Run "Login" first.
+
+@baseUrl = http://localhost:8081
+
+### 1. Login: saves the token for the requests below
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{"username":"admin","password":"temporary-password"}
+
+> {% client.global.set("token", response.body.token); %}
+
+### 2. Create a document: saves its id
+POST {{baseUrl}}/api/v1/documents
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"title":"Hello","content":"First doc"}
+
+> {% client.global.set("docId", response.body.id); %}
+
+### 3. List (paged, sorted, filtered)
+GET {{baseUrl}}/api/v1/documents?page=0&size=10&sort=title,asc&q=hel
+Authorization: Bearer {{token}}
+
+### 4. Get one
+GET {{baseUrl}}/api/v1/documents/{{docId}}
+Authorization: Bearer {{token}}
+
+### 5. Update
+PUT {{baseUrl}}/api/v1/documents/{{docId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"title":"New title","content":"Updated"}
+
+### 6. Delete (204)
+DELETE {{baseUrl}}/api/v1/documents/{{docId}}
+Authorization: Bearer {{token}}
+
+### 7. No token → expect 401 JSON
+GET {{baseUrl}}/api/v1/documents
+
+### 8. Health (public)
+GET {{baseUrl}}/actuator/health

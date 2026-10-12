@@ -1,0 +1,11 @@
+target/
+*.iml
+.idea/
+.vscode/
+*.log
+.env
+.DS_Store
+
+.claude/
+data/
+New Text Document.txt
